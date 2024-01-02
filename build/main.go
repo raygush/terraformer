@@ -14,7 +14,8 @@ const fileSuffix = ".go"
 const packageCmdPath = "cmd"
 
 func main() {
-	provider := os.Args[1]
+	//provider := os.Args[1]
+	provider := "aws"
 	log.Println("Build terraformer with " + provider + " provider...")
 	files, err := os.ReadDir(packageCmdPath)
 	if err != nil {
@@ -66,15 +67,18 @@ func main() {
 		log.Println(err)
 	}
 	// build....
-	cmd := exec.Command("go", "build", "-o", "terraformer-"+provider)
-	var outb, errb bytes.Buffer
-	cmd.Stdout = &outb
-	cmd.Stderr = &errb
-	err = cmd.Run()
-	if err != nil {
-		log.Fatal("err:", errb.String())
-	}
-	fmt.Println(outb.String())
+	//cmd := exec.Command("go", "build", "-o", "terraformer-"+provider)
+	//cmd := exec.Command("go", "build", "-o", "tfer-"+provider)
+	//var outb, errb bytes.Buffer
+	//cmd.Stdout = &outb
+	//cmd.Stderr = &errb
+	//err = cmd.Run()
+	//if err != nil {
+	//	log.Fatal("err:", errb.String())
+	//}
+	//fmt.Println(outb.String())
+
+	myExecute("go", "build", "-o", "tfer-"+provider)
 
 	// revert code and files
 	err = os.WriteFile(packageCmdPath+"/root.go", rootCode, os.ModePerm)
@@ -87,4 +91,18 @@ func main() {
 			log.Println(err)
 		}
 	}
+
+}
+
+func myExecute(cmdstr string, strs ...string) {
+	cmd := exec.Command(cmdstr, strs...)
+	var outb, errb bytes.Buffer
+	cmd.Stdout = &outb
+	cmd.Stderr = &errb
+	err := cmd.Run()
+	if err != nil {
+		log.Fatal("err:", errb.String())
+	}
+	fmt.Println(outb.String())
+
 }

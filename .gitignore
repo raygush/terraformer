@@ -1,6 +1,7 @@
 .idea
 generated
 terraformer*
+tfer-aws
 cmd/tmp
 .DS_Store
 .terraform
